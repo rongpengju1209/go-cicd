@@ -13,9 +13,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  VERSION: 1.2
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -36,20 +33,12 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           logout: true
 
-      # 打印是否拥有版本信息
-      - name: Print Version info
-        run: |
-          echo ">>>>>>>>>>>>"
-          echo "$VERSION"
-          echo ">>>>>>>>>>>>"
-
-
       # Runs a set of commands using the runners shell
       - name: build image
         run: |
           make image
-          docker tag go-demo:latest registry.cn-hangzhou.aliyuncs.com/kubernetes-study/go-cicd:$VERSION
-          docker push registry.cn-hangzhou.aliyuncs.com/kubernetes-study/go-cicd:$VERSION
+          docker tag go-demo:latest registry.cn-hangzhou.aliyuncs.com/kubernetes-study/go-cicd:${{ secrets.VERSION }}
+          docker push registry.cn-hangzhou.aliyuncs.com/kubernetes-study/go-cicd:${{ secrets.VERSION }}
 
       - name: Trigger CI
         uses: InformaticsMatters/trigger-ci-action@1.0.1
@@ -62,4 +51,4 @@ jobs:
           ci-name: CI
           ci-inputs: >-
             image=registry.cn-hangzhou.aliyuncs.com/kubernetes-study/go-cicd
-            sha-tag=${{ VERSION }}
+            sha-tag=${{ secrets.VERSION }}
