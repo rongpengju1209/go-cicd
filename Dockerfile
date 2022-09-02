@@ -3,7 +3,6 @@ ENV GOPROXY=https://goproxy.cn
 ADD . /go/src/app
 WORKDIR /go/src/app
 RUN go get -u -v github.com/gin-gonic/gin
-RUN govendor sync
 RUN GOOS=linux GOARCH=386 go build -v -o /go/src/app/app-server
 
 FROM alpine
