@@ -13,6 +13,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  MAJOR: 1
+  MINOR: 1
+  MINOR_BEGIN_AT: "2022-09-02T00:00:00+08:00"
+  PATCH: $(shell git rev-list --count --since="${MINOR_BEGIN_AT}" HEAD)
+  BETA: $(shell test -n "$(shell git status -s)" && echo "-beta")
+  VERSION: $(MAJOR).$(MINOR).$(PATCH)$(BETA)
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -32,22 +40,30 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           logout: true
 
-      # Runs a set of commands using the runners shell
-      - name: build image
+      # 打印是否拥有版本信息
+      - name: Print Version info
         run: |
-          make image
-          docker tag flask-demo:latest ${{ secrets.USERNAME }}/flask-demo:${{ github.sha }}
-          docker push ${{ secrets.USERNAME }}/flask-demo:${{ github.sha }}
+          echo ">>>>>>>>>>>>"
+          echo "$VERSION"
+          echo ">>>>>>>>>>>>"
 
-      - name: Trigger CI
-        uses: InformaticsMatters/trigger-ci-action@1.0.1
-        with:
-          ci-owner: rongpengju1209
-          ci-repository: go-cicd-kustomize
-          ci-ref: refs/heads/master
-          ci-user: rongpengju1209
-          ci-user-token: ${{ secrets.CI_TOKEN }}
-          ci-name: CI
-          ci-inputs: >-
-            image=${{ secrets.USER_NAME }}/flask-demo
-            sha-tag=${{ github.sha }}
+
+      # Runs a set of commands using the runners shell
+#      - name: build image
+#        run: |
+#          make image
+#          docker tag flask-demo:latest ${{ secrets.USERNAME }}/flask-demo:${{ github.sha }}
+#          docker push ${{ secrets.USERNAME }}/flask-demo:${{ github.sha }}
+
+#      - name: Trigger CI
+#        uses: InformaticsMatters/trigger-ci-action@1.0.1
+#        with:
+#          ci-owner: rongpengju1209
+#          ci-repository: go-cicd-kustomize
+#          ci-ref: refs/heads/master
+#          ci-user: rongpengju1209
+#          ci-user-token: ${{ secrets.CI_TOKEN }}
+#          ci-name: CI
+#          ci-inputs: >-
+#            image=${{ secrets.USER_NAME }}/flask-demo
+#            sha-tag=${{ github.sha }}
