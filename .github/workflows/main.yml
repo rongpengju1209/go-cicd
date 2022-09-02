@@ -61,5 +61,5 @@ jobs:
           ci-user-token: ${{ secrets.CI_TOKEN }}
           ci-name: CI
           ci-inputs: >-
-            image=registry.cn-hangzhou.aliyuncs.com/kubernetes-study/go-cicd:$VERSION
-            sha-tag=$VERSION
+            image=registry.cn-hangzhou.aliyuncs.com/kubernetes-study/go-cicd
+            sha-tag=${{ VERSION }}
