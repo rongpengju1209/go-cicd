@@ -14,12 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  MAJOR: 1
-  MINOR: 1
-  MINOR_BEGIN_AT: "2022-09-02T00:00:00+08:00"
-  PATCH: $(shell git rev-list --count --since="${MINOR_BEGIN_AT}" HEAD)
-  BETA: $(shell test -n "$(shell git status -s)" && echo "-beta")
-  VERSION: $(MAJOR).$(MINOR).$(PATCH)$(BETA)
+  VERSION: 1.1
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -49,11 +44,11 @@ jobs:
 
 
       # Runs a set of commands using the runners shell
-#      - name: build image
-#        run: |
-#          make image
-#          docker tag flask-demo:latest ${{ secrets.USERNAME }}/flask-demo:${{ github.sha }}
-#          docker push ${{ secrets.USERNAME }}/flask-demo:${{ github.sha }}
+      - name: build image
+        run: |
+          make image
+          docker tag go-demo:latest ${{ secrets.USERNAME }}/flask-demo:$VERSION
+          docker push ${{ secrets.USERNAME }}/flask-demo:$VERSION
 
 #      - name: Trigger CI
 #        uses: InformaticsMatters/trigger-ci-action@1.0.1
