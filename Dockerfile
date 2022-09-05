@@ -6,8 +6,8 @@ RUN go get -u -v github.com/gin-gonic/gin
 RUN GOOS=linux GOARCH=386 go build -v -o /go/src/app/app-server
 
 FROM alpine
-RUN apk add -U tzdata
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
-COPY --from=build-env /go/src/app/app-server /usr/local/bin/app-server
+COPY --from=build-env /go/src/app/app-server /opt/argo-go/app-server
+WORKDIR /opt/argo-go
 EXPOSE 8080
 CMD [ "./app-server" ]
