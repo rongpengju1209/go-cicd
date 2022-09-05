@@ -40,7 +40,8 @@ jobs:
         run: |
           printenv
           echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
-          echo ${{ github.event }}
+          echo ${{ env.GITHUB_REPOSITORY }}
+          echo ${{ github.event.head_commit.message }}
 
       - name: Docker Login
         uses: aliyun/acr-login@v1
@@ -78,5 +79,6 @@ jobs:
           type: markdown
           content: |
             # 💯👨‍💻 Success 🎉🎉🎉
+            > Branch: ${{ env.PR_NUMBER }} 
             > Maven Build of [# ${{ env.PR_TITLE }}](${{ env.PR_URL }}) by ${{ env.PR_USER }} success
             > ^_^ from github action message 
