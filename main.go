@@ -7,8 +7,8 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"code":    200,
-			"version": "v5",
-			"data":    "这是第五版，Hello ArgoCD",
+			"version": "v6",
+			"data":    "这是第六版，Hello ArgoCD",
 		})
 	})
 	r.Run(":8080")
