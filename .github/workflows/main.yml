@@ -37,7 +37,10 @@ jobs:
 
       # 打印环境变量
       - name: print env
-        run: printenv
+        run: |
+          printenv
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
+          echo ${{ github.event }}
 
       - name: Docker Login
         uses: aliyun/acr-login@v1
